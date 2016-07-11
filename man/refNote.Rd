@@ -33,7 +33,7 @@ This was based on the popups on the https://what-if.xkcd.com/ site
 Mark Peterson
 }
 \note{
-The html page also needs to include the javascript to process the notes for these to work.
+The html page also needs to include the javascript and css to process the notes for these to work.
 Specifically, need to include the following (generally in the header):
 
 \preformatted{
@@ -52,6 +52,50 @@ Specifically, need to include the following (generally in the header):
         });
       });
     </script>
+}
+
+And the following to wherever you include you css definitions:
+
+\preformatted{
+/* the reference tooltips style starts here */
+/* This was stolen from the What If? css sytle sheet
+ *  at https://what-if.xkcd.com/css/style.css
+ *  in an effort to emulate that style  */
+
+.ref {
+    position: relative;
+    vertical-align: baseline;
+   }
+
+.refnum {
+    position: relative;
+    left: 2px;
+    bottom: 1ex;
+    font-family: Verdana, sans-serif;
+    color: #005994;
+    font-size: .7em;
+    font-weight: bold;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.refbody {
+    font-family: Verdana, sans-serif;
+    font-size: .7em;
+    line-height: 1.1;
+    display: block;
+    min-width: 20em;
+    position: absolute;
+    left: 25px;
+    bottom: 5px ;
+    border: 1px solid;
+    padding: 5px;
+    background-color: #fff;
+    word-wrap: break-word;
+    z-index: 9999;
+    overflow: auto;
+}
+
 }
 
 }
