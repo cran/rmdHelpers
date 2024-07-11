@@ -3,6 +3,11 @@ function(toPrint = letters[1:3]
                       , finalSepWord = "and"
                       , midSep = ","
                       ){
+  # Return empty if vector is empty
+  if(length(toPrint) == 0){
+    return("")
+  }
+  
   # set final separator
   finalSep <- ifelse(length(toPrint)>2,
                      paste(midSep, " ",finalSepWord," ",sep=""),

@@ -4,6 +4,17 @@ formatEffectTable <-
            , pDigits = 4
            , cleanFactors = TRUE){
 
+    mgsub <- function(pattern, replacement, x, ...) {
+      if (length(pattern)!=length(replacement)) {
+        stop("pattern and replacement do not have the same length.")
+      }
+      result <- x
+      for (i in 1:length(pattern)) {
+        result <- gsub(pattern[i], replacement[i], result, ...)
+      }
+      result
+    }
+    
     cis <- 
       stats::confint(object, level = level) %>%
       round(estDigits) %>%
@@ -14,13 +25,13 @@ formatEffectTable <-
     if(cleanFactors){
       logicals <- attr(summary(object)$terms,"dataClasses")[attr(summary(object)$terms,"dataClasses") == "logical"]
       
-      toAddLogicals <- paste0(names(logicals), ": TRUE")
+      toAddLogicals <- paste0(names(logicals), "_TRUE")
       names(toAddLogicals) <- paste0(names(logicals),"TRUE")
       
       # Add a separator for the factor levels
       namesToChange <-
         lapply(names(object$xlevels), function(thisX){
-          out <- paste(thisX, object$xlevels[[thisX]], sep = ": ")
+          out <- paste(thisX, object$xlevels[[thisX]], sep = "_")
           names(out) <- paste(thisX, object$xlevels[[thisX]], sep = "")
           return(out)
         }) %>%
@@ -44,7 +55,7 @@ formatEffectTable <-
              , Lower
              , Upper
              , `P-value`) %>%
-      mutate(Parameter = ifelse(Parameter %in% names(namesToChange)
-                                , namesToChange[Parameter]
-                                , Parameter))
+      mutate(Parameter = mgsub(names(namesToChange)
+                               , namesToChange
+                               , Parameter))
   }
